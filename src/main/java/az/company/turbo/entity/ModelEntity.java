@@ -13,13 +13,13 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "model",schema = "turbo")
-public class ModelEntiry {
+public class ModelEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true,nullable = false,length = 50)
+    @Column(unique = true,nullable = false,length = 15)
     private String name;
-    @ManyToOne(targetEntity = BrandEntity.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = BrandEntity.class)
     @JoinColumn(name = "Brend_id",referencedColumnName = "id")
     private BrandEntity brandEntity;
 }

@@ -12,4 +12,8 @@ public interface BrandRepository extends CrudRepository<BrandEntity, Integer> {
      void deleteById(Integer id);
      @Query(value = "update brand set brand.name=?2 where brand.id=?1",nativeQuery = true)
      void update(int id,String name);
+
+    int findByName(String name);
+    BrandEntity findBrandEntityByName(String name);
+
 }

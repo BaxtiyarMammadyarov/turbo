@@ -26,7 +26,7 @@ public class BrandServiceImpl implements BrandSerice {
     public ResponseEntity<String> create(BrandDto brandDto) {
         String msg;
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
+        headers.add("Responded", "Brand");
         if (!brandRepository.existsByName(brandDto.getName())) {
             BrandEntity brandEntity = new BrandEntity();
             brandEntity.setId(brandDto.getId());
@@ -41,10 +41,10 @@ public class BrandServiceImpl implements BrandSerice {
     }
 
 
-    public ResponseEntity<?> delete(Integer id) {
+    public ResponseEntity<String> delete(Integer id) {
         String msg;
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
+        headers.add("Responded", "Brand");
         if (brandRepository.existsById(id)) {
             msg = "deleted";
             brandRepository.deleteById(id);
@@ -56,10 +56,10 @@ public class BrandServiceImpl implements BrandSerice {
     }
 
     @Override
-    public ResponseEntity<?> update(BrandDto brandDto) {
+    public ResponseEntity<String> update(BrandDto brandDto) {
         String msg;
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
+        headers.add("Responded", "Brand");
         if(brandRepository.existsById(brandDto.getId())){
             brandRepository.update(brandDto.getId(), brandDto.getName());
             msg="Update";

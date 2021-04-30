@@ -17,6 +17,7 @@ public class FuelTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name ="fuel_name")
     private String name;
 
 }

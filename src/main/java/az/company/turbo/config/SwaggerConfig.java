@@ -54,7 +54,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfo("Turbo - IKTLAB", "Turbo web application for learning process", "API", "https://www.iktlab.az/",
-                new Contact("Bakhtiyar Mammadyarov", "https://www.facebook.com/bextiyar.memmedyarov", "baxtiyar0393@gmail.com"), "License of API", "API license URL",
+                new Contact("Bakhtiyar Mammadyarov", "https://www.facebook.com/", "Baxtitar0393@gmail.com"), "License of API", "API license URL",
                 Collections.emptyList());
     }
 

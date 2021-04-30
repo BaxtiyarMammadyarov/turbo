@@ -18,6 +18,6 @@ public class BrandEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(nullable = false, unique = true,length = 50)
+    @Column(nullable = false, unique = true,length =15)
     private String name;
 }

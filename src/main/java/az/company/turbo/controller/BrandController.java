@@ -6,6 +6,8 @@ import io.swagger.annotations.Api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/brand")
@@ -18,22 +20,22 @@ public class BrandController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody BrandDto brandDto) {
-        return brandSerice.create(brandDto);
+    public ResponseEntity<String> create(@RequestBody BrandDto brandDto) {
+        return (ResponseEntity<String>) brandSerice.create(brandDto);
     }
 
     @GetMapping
-    public ResponseEntity get() {
-        return brandSerice.get();
+    public ResponseEntity<List<BrandDto>> get() {
+        return (ResponseEntity<List<BrandDto>>) brandSerice.get();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable int id) {
-        return brandSerice.delete(id);
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        return (ResponseEntity<String>) brandSerice.delete(id);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody BrandDto brandDto) {
-        return brandSerice.update(brandDto);
+    public ResponseEntity<String> update(@RequestBody BrandDto brandDto) {
+        return (ResponseEntity<String>) brandSerice.update(brandDto);
     }
 }
