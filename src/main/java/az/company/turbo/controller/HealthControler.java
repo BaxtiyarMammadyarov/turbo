@@ -1,4 +1,4 @@
-package az.company.turbo.controler;
+package az.company.turbo.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotBlank;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class CarBrendDto {
+public class BrandDto {
     private int id;
+    @NotBlank(message ="Brand name can't be empty or null")
     private  String name;
 }

@@ -13,14 +13,14 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "contact_info")
-public class ContactInfo {
+public class ContactInfoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne(targetEntity = City.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = CityEntity.class,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id",referencedColumnName ="id" )
-    private City city;
+    private CityEntity cityEntity;
 
 }

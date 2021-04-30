@@ -12,10 +12,12 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-public class CarBrend {
+@Table(name = "brand",schema = "turbo")
+public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true,length = 50)
     private String name;
 }

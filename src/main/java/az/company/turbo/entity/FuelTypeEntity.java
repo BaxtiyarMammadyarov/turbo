@@ -9,15 +9,14 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
 @Getter
+@Setter
 @Entity
-public class CarModel {
+@Table(name = "fuel_type")
+public class FuelTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    @ManyToOne(targetEntity = CarBrend.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "Brend_id",referencedColumnName = "id")
-    private CarBrend carBrend;
+
 }

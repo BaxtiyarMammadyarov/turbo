@@ -9,13 +9,17 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name = "city")
-public class City {
+@Table(name = "model",schema = "turbo")
+public class ModelEntiry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true,nullable = false,length = 50)
     private String name;
+    @ManyToOne(targetEntity = BrandEntity.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "Brend_id",referencedColumnName = "id")
+    private BrandEntity brandEntity;
 }
