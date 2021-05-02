@@ -7,6 +7,7 @@ import az.company.turbo.entity.ModelEntity;
 import az.company.turbo.repository.BrandRepository;
 import az.company.turbo.repository.ModelRepository;
 import az.company.turbo.service.ModelService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +63,10 @@ public class ModelServiceImpl implements ModelService {
         if (modelRepository.existsById(id)) {
             modelRepository.deleteById(id);
             msg = "deleted";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         } else {
             msg = "There is no id in the database";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }
 
     }
@@ -78,21 +79,20 @@ public class ModelServiceImpl implements ModelService {
         if (modelRepository.existsById(modelDto.getId())) {
             modelRepository.update(modelDto.getId(), modelDto.getName());
             msg = "Update";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         } else {
             msg = "There is no id in the database";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }
     }
 
     @Override
     public ResponseEntity<List<ModelDto>> get() {
-        ModelDto modelDto = new ModelDto();
         List<ModelDto> dtoList = new ArrayList<>();
         if (brandRepository.findAll() != null) {
             for (ModelEntity model : modelRepository.findAll()) {
-                modelDto.setId(model.getId());
-                modelDto.setName(model.getName());
+                ModelDto modelDto = new ModelDto();
+                BeanUtils.copyProperties(model, modelDto);
                 BrandDto brand = new BrandDto();
                 brand.setId(model.getBrandEntity().getId());
                 brand.setName(model.getBrandEntity().getName());
@@ -100,8 +100,8 @@ public class ModelServiceImpl implements ModelService {
                 dtoList.add(modelDto);
 
             }
-            return new ResponseEntity<List<ModelDto>>(dtoList, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(dtoList, HttpStatus.ACCEPTED);
 
-        } else return new ResponseEntity<List<ModelDto>>(HttpStatus.NOT_FOUND);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

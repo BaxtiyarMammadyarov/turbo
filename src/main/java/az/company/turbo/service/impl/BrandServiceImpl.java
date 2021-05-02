@@ -3,7 +3,8 @@ package az.company.turbo.service.impl;
 import az.company.turbo.dto.BrandDto;
 import az.company.turbo.entity.BrandEntity;
 import az.company.turbo.repository.BrandRepository;
-import az.company.turbo.service.BrandSerice;
+import az.company.turbo.service.BrandService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BrandServiceImpl implements BrandSerice {
+public class BrandServiceImpl implements BrandService {
     public BrandServiceImpl(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
@@ -29,14 +30,13 @@ public class BrandServiceImpl implements BrandSerice {
         headers.add("Responded", "Brand");
         if (!brandRepository.existsByName(brandDto.getName())) {
             BrandEntity brandEntity = new BrandEntity();
-            brandEntity.setId(brandDto.getId());
-            brandEntity.setName(brandDto.getName());
+            BeanUtils.copyProperties(brandDto, brandEntity);
             brandRepository.save(brandEntity);
             msg = "created successful";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         } else {
             msg = "this brand is available in the database";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }
     }
 
@@ -48,10 +48,10 @@ public class BrandServiceImpl implements BrandSerice {
         if (brandRepository.existsById(id)) {
             msg = "deleted";
             brandRepository.deleteById(id);
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         } else {
             msg = "There is no id in the database";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }
     }
 
@@ -63,26 +63,26 @@ public class BrandServiceImpl implements BrandSerice {
         if(brandRepository.existsById(brandDto.getId())){
             brandRepository.update(brandDto.getId(), brandDto.getName());
             msg="Update";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }else{
             msg="There is no id in the database";
-            return new ResponseEntity<String>(msg, headers, HttpStatus.OK);
+            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
         }
     }
 
 
     @Override
     public ResponseEntity<List<BrandDto>> get() {
-        BrandDto brandDto = new BrandDto();
+
         List<BrandDto> dtoList = new ArrayList<>();
         if(brandRepository.findAll()!=null){
         for (BrandEntity car : brandRepository.findAll()) {
-            brandDto.setId(car.getId());
-            brandDto.setName(car.getName());
+            BrandDto brandDto = new BrandDto();
+            BeanUtils.copyProperties(car, brandDto);
             dtoList.add(brandDto);
         }
-        return new ResponseEntity<List<BrandDto>> (dtoList, HttpStatus.ACCEPTED);
-    }else  return new ResponseEntity<List<BrandDto>> (HttpStatus.NOT_FOUND);
+        return new ResponseEntity<> (dtoList, HttpStatus.ACCEPTED);
+    }else  return new ResponseEntity<> (HttpStatus.NOT_FOUND);
 
     }
 }

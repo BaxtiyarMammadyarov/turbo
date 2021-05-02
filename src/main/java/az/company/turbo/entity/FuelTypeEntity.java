@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "fuel_type")
+@Table(name = "fuel_type",schema = "turbo")
 public class FuelTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

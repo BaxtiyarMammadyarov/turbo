@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "contact_info")
+@Table(name = "contact_info",schema = "turbo")
 public class ContactInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class ContactInfoEntity {
     private String name;
     @Column(name = "phone",nullable = false)
     private String phone;
-    @Column(name = "email",nullable = false,length =15)
+    @Column(name = "email",nullable = false,length =50)
     private String email;
     @ManyToOne(targetEntity = CityEntity.class,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id",referencedColumnName ="id" )
