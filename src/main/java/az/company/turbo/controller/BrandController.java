@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @RestController
@@ -14,7 +15,6 @@ import java.util.List;
 @Api(description = "Actions on Brand")
 public class BrandController {
     private final BrandService brandService;
-
     public BrandController(BrandService brandSerice) {
         this.brandService = brandSerice;
     }

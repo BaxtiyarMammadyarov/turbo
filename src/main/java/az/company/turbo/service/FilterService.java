@@ -22,18 +22,11 @@ public interface FilterService {
 
  //  ResponseEntity<List<ProductDto>> findAll(BigDecimal min, BigDecimal max);
 
-    ResponseEntity<List<ProductDto>> findAll(CityDto city);
+   // ResponseEntity<List<ProductDto>> findAll(CityDto city);
 
     ResponseEntity<List<ProductDto>> findAll(boolean creditStatus);
 
-    ResponseEntity<List<ProductDto>> findAll
-            (BrandDto brand
-                    , ModelDto model
-                    ,Short minDate
-                    , Short maxDate
-                    , CityDto city
-                    , boolean creditStatus
-            );
+
 
 //    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model);
 //    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model, Short releaseDate, BigDecimal min, BigDecimal max);

@@ -3,17 +3,14 @@ package az.company.turbo.repository;
 
 import az.company.turbo.entity.BrandEntity;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BrandRepository extends CrudRepository<BrandEntity, Integer> {
 
-    boolean existsByName(String name);
-     void deleteById(Integer id);
-     @Query(value = "update brand set brand.name=?2 where brand.id=?1",nativeQuery = true)
-     void update(int id,String name);
+public interface BrandRepository extends JpaRepository<BrandEntity, Integer> {
 
-    int findByName(String name);
-    BrandEntity findBrandEntityByName(String name);
 
+
+
+
+    BrandEntity findByName(String name);
 }

@@ -1,8 +1,8 @@
 package az.company.turbo.dto;
 
 
-import az.company.turbo.entity.enums.DriveEnum;
-import az.company.turbo.entity.enums.Valyuta;
+import az.company.turbo.dto.enums.DriveEnum;
+import az.company.turbo.dto.enums.Valyuta;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,6 @@ import lombok.Setter;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +21,7 @@ public class ProductDto {
     @NotBlank(message = "Brand name can't be empty or null")
     private BrandDto brand;
     @NotBlank(message = "model name can't be empty or null")
-    private ModelDto mode;
+    private ModelDto modeldto;
     @NotBlank(message = "fuel name can't be empty or null")
     private FuelTypeDto fuelType;//yanacaq novu
     @NotBlank(message = "drive  can't be empty or null")

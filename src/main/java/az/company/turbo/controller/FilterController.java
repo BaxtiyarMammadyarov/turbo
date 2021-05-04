@@ -43,10 +43,10 @@ public class FilterController {
         return filterService.findAll(creditStatus);
     }
 
-    @GetMapping("/city")
-    public ResponseEntity<?> get(@RequestBody CityDto city) {
-        return filterService.findAll(city);
-    }
+//    @GetMapping("/city")
+//    public ResponseEntity<?> get(@RequestBody CityDto city) {
+//        return filterService.findAll(city);
+//    }
 
 
 }

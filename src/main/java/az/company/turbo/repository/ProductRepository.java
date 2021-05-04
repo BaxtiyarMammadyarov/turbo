@@ -27,10 +27,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
     //ProductEntity[] findAllByPirceBetween(BigDecimal min, BigDecimal max);
 
 
-    boolean existsByCity(String name);
-
-    ProductEntity[] findAllByCity(String name);
-
     boolean existsByCreditStatus(boolean creditStatus);
 
     ProductEntity[] findAllByCreditStatus(boolean creditStatus);

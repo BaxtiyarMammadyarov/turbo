@@ -7,16 +7,16 @@ import az.company.turbo.entity.ModelEntity;
 import az.company.turbo.repository.BrandRepository;
 import az.company.turbo.repository.ModelRepository;
 import az.company.turbo.service.ModelService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ModelServiceImpl implements ModelService {
     private final ModelRepository modelRepository;
     private final BrandRepository brandRepository;
@@ -27,81 +27,64 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ResponseEntity<String> create(ModelDto modelDto) {
-        String msg;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "Model");
-        if (!modelRepository.existsByName(modelDto.getName())) {
-            ModelEntity modelEntity = new ModelEntity();
-            modelEntity.setName(modelDto.getName());
-            if (brandRepository.existsByName(modelDto.getBrandDto().getName())) {
-                modelEntity.setBrandEntity(brandRepository.findBrandEntityByName(modelDto.getBrandDto().getName()));
-                modelRepository.save(modelEntity);
-                msg = "created successful";
-                return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-            } else {
-                BrandEntity brandEntity = new BrandEntity();
-                brandEntity.setName(modelDto.getBrandDto().getName());
-                brandRepository.save(brandEntity);
-                modelRepository.save(modelEntity);
-                msg = "created successful";
-                return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-            }
-        } else {
-            msg = "this model is available in the database";
-            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-        }
-
+    public ResponseEntity<?> create(ModelDto modelDto) {
+        ModelEntity modelEntity = new ModelEntity();
+        modelEntity.setName(modelDto.getName());
+        BrandEntity brand = checkBrandByModel(modelDto);
+        modelEntity.setBrandEntity(brand);
+        modelEntity = modelRepository.save(modelEntity);
+        modelDto = convertFromEntityToDto(modelEntity);
+        return ResponseEntity.ok(modelDto);
 
     }
 
     @Override
-    public ResponseEntity<?> delete(Integer id) {
-        String msg;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "Model");
-        if (modelRepository.existsById(id)) {
-            modelRepository.deleteById(id);
-            msg = "deleted";
-            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-        } else {
-            msg = "There is no id in the database";
-            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-        }
-
+    public ResponseEntity<String> delete(Integer id) {
+        ModelEntity entity = getById(id);
+        modelRepository.delete(entity);
+        return ResponseEntity.ok(String.format("Raw with %s id successfully deleted.", id));
     }
 
     @Override
     public ResponseEntity<?> update(ModelDto modelDto) {
-        String msg;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "Model");
-        if (modelRepository.existsById(modelDto.getId())) {
-            modelRepository.update(modelDto.getId(), modelDto.getName());
-            msg = "Update";
-            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-        } else {
-            msg = "There is no id in the database";
-            return new ResponseEntity<>(msg, headers, HttpStatus.OK);
-        }
+        ModelEntity entity = getById(modelDto.getId());
+        entity.setName(modelDto.getName());
+        BrandEntity brand = checkBrandByModel(modelDto);
+        entity.setBrandEntity(brand);
+        entity = modelRepository.save(entity);
+        modelDto = convertFromEntityToDto(entity);
+        return ResponseEntity.ok(modelDto);
+
     }
 
     @Override
-    public ResponseEntity<List<ModelDto>> get() {
-        List<ModelDto> dtoList = new ArrayList<>();
-        if (brandRepository.findAll() != null) {
-            for (ModelEntity model : modelRepository.findAll()) {
-                ModelDto modelDto = new ModelDto();
-                BeanUtils.copyProperties(model, modelDto);
-                BrandDto brand = new BrandDto();
-                brand.setId(model.getBrandEntity().getId());
-                brand.setName(model.getBrandEntity().getName());
-                modelDto.setBrandDto(brand);
-                dtoList.add(modelDto);
+    public ResponseEntity<?> get() {
+        List<ModelDto> dtoList = modelRepository
+                .findAll()
+                .stream()
+                .map(this::convertFromEntityToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtoList);
+    }
 
-            }
-            return new ResponseEntity<>(dtoList, HttpStatus.ACCEPTED);
+    private ModelDto convertFromEntityToDto(ModelEntity entity) {
+        return new ModelDto(entity.getId(), entity.getName(), new BrandDto(entity.getBrandEntity().getId(), entity.getName()));
+    }
 
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    private ModelEntity getById(Integer id) {
+        return modelRepository.findById(id).orElseThrow(() -> new RuntimeException("model id not founded."));
+    }
+
+    private BrandEntity checkBrandByModel(ModelDto modelDto) {
+        return brandRepository
+                .findById(modelDto
+                        .getBrandDto()
+                        .getId())
+                .orElseGet(() -> {
+                    BrandEntity entity1 = new BrandEntity();
+                    entity1.setName(modelDto.getBrandDto().getName());
+                    entity1 = brandRepository.save(entity1);
+                    return entity1;
+                });
     }
 }
