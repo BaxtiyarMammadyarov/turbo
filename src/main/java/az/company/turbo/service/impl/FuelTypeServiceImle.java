@@ -21,7 +21,7 @@ public class FuelTypeServiceImle implements FuelTypeService {
     }
 
     @Override
-    public ModelEntity create(FuelTypeDto fuelTypeDto) {
+    public ResponseEntity<?> create(FuelTypeDto fuelTypeDto) {
         FuelTypeEntity fuelTypeEntity = new FuelTypeEntity();
         fuelTypeEntity.setName(fuelTypeDto.getName());
         fuelTypeEntity = fuelTypeRepository.save(fuelTypeEntity);
@@ -56,7 +56,7 @@ public class FuelTypeServiceImle implements FuelTypeService {
         return ResponseEntity.ok(dtoList);
     }
 
-    private FuelTypeDto convertFromEntityToDto(FuelTypeEntity entity) {
+     FuelTypeDto convertFromEntityToDto(FuelTypeEntity entity) {
         return new FuelTypeDto(entity.getId(), entity.getName());
     }
 

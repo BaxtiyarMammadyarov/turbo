@@ -40,10 +40,20 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity entity = new ProductEntity();
         entity.setModel(checkModel(productDto));
         entity.setContactInfo(checkContact(productDto));
-        entity.setContactInfo(checkContact(productDto));
-
-
-        return null;
+        entity.setFuelType(checkFuelType(productDto));
+        entity.setCreditStatus(productDto.isCreditStatus());
+        entity.setDrive(productDto.getDrive());
+        entity.setEnginePower(productDto.getEnginePower());
+        entity.setPhoto(productDto.getPhoto());
+        entity.setMileage(productDto.getMileage());
+        entity.setPrice(productDto.getPrice());
+        entity.setValyuta(productDto.getValyuta());
+        entity.setBarterStatus(productDto.isCreditStatus());
+        entity.setDescription(productDto.getDesc());
+        entity.setReleaseDate(productDto.getReleaseDate());
+        entity= productRepository.save(entity);
+        productDto=convertFromEntityToDto(entity);
+        return ResponseEntity.ok(productDto);
     }
 
 
@@ -67,31 +77,39 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductDto convertFromEntityToDto(ProductEntity entity) {
         ProductDto dto = new ProductDto();
-
         dto.setId(entity.getId());
         ModelServiceImpl modelService = new ModelServiceImpl(modelRepository, brandRepository);
         dto.setModeldto(modelService.convertFromEntityToDto(entity.getModel()));
         ContactInfoServiceImpl infoService=new ContactInfoServiceImpl(contactInfoRepository,cityRepository);
         dto.setContactInfoDto(infoService.convertFromEntityToDto(entity.getContactInfo()));
-
-//                ,entity.getFuelType()
-//                , entity.getContactInfo()
-//                , entity.getDescription()
-//                , entity.getDrive()
-//                , entity.getEnginePower()
-//                , entity.getMileage()
-//                , entity.getValyuta()
-//                , entity.getReleaseDate()
-//                , entity.getPhoto()
-//                , entity.getPrice()
-//                , entity.isBarterStatus()
-//                , entity.isCreditStatus()
-
-        return null;
+        FuelTypeServiceImle fuelService=new FuelTypeServiceImle(fuelTypeRepository);
+        dto.setFuelType(fuelService.convertFromEntityToDto(entity.getFuelType()));
+        dto.setEnginePower(entity.getEnginePower());
+        dto.setDrive(entity.getDrive());
+        dto.setDesc(entity.getDescription());
+        dto.setBarter(entity.isBarterStatus());
+        dto.setCreditStatus(entity.isCreditStatus());
+        dto.setMileage(entity.getMileage());
+        dto.setReleaseDate(entity.getReleaseDate());
+        dto.setValyuta(entity.getValyuta());
+        dto.setPhoto(entity.getPhoto());
+        dto.setPrice(entity.getPrice());
+        return dto;
     }
 
     private ProductEntity getById(Integer id) {
         return productRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    }
+    private FuelTypeEntity checkFuelType(ProductDto productDto){
+        return fuelTypeRepository
+                .findById(productDto.getFuelType().getId())
+                .orElseGet(() -> {
+                  FuelTypeEntity fuelType =new FuelTypeEntity();
+                  fuelType.setName(productDto.getFuelType().getName());
+                  fuelType=fuelTypeRepository.save(fuelType);
+                  return  fuelType;
+        });
+
     }
 
     private ModelEntity checkModel(ProductDto productDto) {

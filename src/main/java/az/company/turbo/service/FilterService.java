@@ -14,30 +14,5 @@ import java.util.List;
 @Service
 public interface FilterService {
 
-    ResponseEntity<List<ProductDto>> findAll(BrandDto brand);
-
-    ResponseEntity<List<ProductDto>> findAll(ModelDto model);
-
-    ResponseEntity<List<ProductDto>> findAll(Short releaseDateMin,Short releaseDateMax);
-
- //  ResponseEntity<List<ProductDto>> findAll(BigDecimal min, BigDecimal max);
-
-   // ResponseEntity<List<ProductDto>> findAll(CityDto city);
-
-    ResponseEntity<List<ProductDto>> findAll(boolean creditStatus);
-
-
-
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model, Short releaseDate, BigDecimal min, BigDecimal max);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model,  BigDecimal min, BigDecimal max);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model, BigDecimal min, BigDecimal max,CityDto city);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand,  Short releaseDate, BigDecimal min, BigDecimal max);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, BigDecimal min, BigDecimal max);
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, ModelDto model, Short releaseDate, BigDecimal min, BigDecimal max,boolean creditStatus );
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand, Short releaseDate, BigDecimal min, BigDecimal max,boolean creditStatus );
-//    ResponseEntity<List<ProductDto>> findAll(BrandDto brand,  BigDecimal min, BigDecimal max,boolean creditStatus );
-
-    ResponseEntity<?> findByBarterStatus();
 
 }

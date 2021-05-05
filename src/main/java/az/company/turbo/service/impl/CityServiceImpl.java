@@ -23,7 +23,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public ModelEntity create(CityDto cityDto) {
+    public ResponseEntity<?> create(CityDto cityDto) {
         CityEntity entity = new CityEntity();
         entity.setName(cityDto.getName());
         entity = cityRepository.save(entity);

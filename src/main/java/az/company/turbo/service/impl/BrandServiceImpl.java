@@ -23,7 +23,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
 
-    public ModelEntity create(BrandDto brandDto) {
+    public ResponseEntity<?> create(BrandDto brandDto) {
         BrandEntity entity = new BrandEntity();
         entity.setName(brandDto.getName());
         entity = brandRepository.save(entity);
