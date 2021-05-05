@@ -11,15 +11,14 @@ import lombok.Setter;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class ProductDto {
-    private int id;
-    @NotBlank(message = "Brand name can't be empty or null")
-    private BrandDto brand;
+    private Integer id;
     @NotBlank(message = "model name can't be empty or null")
     private ModelDto modeldto;
     @NotBlank(message = "fuel name can't be empty or null")
@@ -29,8 +28,8 @@ public class ProductDto {
     private DriveEnum drive;//oturucu
     @NotBlank(message = "release Date  can't be empty or null")
     private Short releaseDate;//istehsal tarixi
-    // @NotBlank(message =" price can't be empty or null")
-    //private BigDecimal price;//qiymeti
+     @NotBlank(message =" price can't be empty or null")
+    private BigDecimal price;//qiymeti
     @NotBlank(message = "valyuta can't be empty or null")
     @Enumerated(EnumType.STRING)
     private Valyuta valyuta;

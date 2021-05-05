@@ -1,7 +1,9 @@
 package az.company.turbo.service;
 
-import az.company.turbo.entity.ContactInfoEntity;
-import az.company.turbo.service.CrudService;
+import az.company.turbo.dto.ContactInfoDto;
+import org.springframework.stereotype.Service;
 
-public interface ContactInfoService extends CrudService<ContactInfoEntity,Long> {
+
+@Service
+public interface ContactInfoService extends CrudService<ContactInfoDto,Integer> {
 }

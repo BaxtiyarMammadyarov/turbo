@@ -1,20 +1,15 @@
 package az.company.turbo.service.impl;
 
 
-import az.company.turbo.dto.BrandDto;
 import az.company.turbo.dto.CityDto;
-import az.company.turbo.entity.BrandEntity;
 import az.company.turbo.entity.CityEntity;
+import az.company.turbo.entity.ModelEntity;
 import az.company.turbo.repository.CityRepository;
 import az.company.turbo.service.CityService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +23,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public ResponseEntity<?> create(CityDto cityDto) {
+    public ModelEntity create(CityDto cityDto) {
         CityEntity entity = new CityEntity();
         entity.setName(cityDto.getName());
         entity = cityRepository.save(entity);

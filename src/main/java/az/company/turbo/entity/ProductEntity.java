@@ -21,10 +21,7 @@ import java.math.BigDecimal;
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne(targetEntity = BrandEntity.class)
-    @JoinColumn(name = "brend_id", referencedColumnName = "id")
-    private BrandEntity brand;
+    private Integer id;
     @ManyToOne(targetEntity = ModelEntity.class)
     @JoinColumn(name = "model_id", referencedColumnName = "id")
     private ModelEntity model;
@@ -55,6 +52,8 @@ public class ProductEntity {
     @ManyToOne(targetEntity = ContactInfoEntity.class)
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private ContactInfoEntity contactInfo;
+
+
 
 
 //    @ManyToOne(targetEntity = CityEntity.class)

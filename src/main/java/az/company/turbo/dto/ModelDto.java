@@ -15,5 +15,6 @@ public class ModelDto {
     private int id;
     @NotBlank(message ="Brand name can't be empty or null")
     private String name;
+    @NotBlank(message =" brand can't be empty or null")
     private BrandDto brandDto;
 }

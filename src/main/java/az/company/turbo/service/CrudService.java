@@ -1,11 +1,12 @@
 package az.company.turbo.service;
 
+import az.company.turbo.entity.ModelEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public interface CrudService<DTO, ID> {
-    ResponseEntity<?> create( DTO dto);
+    ResponseEntity<?> create(DTO dto);
 
     ResponseEntity<?> delete(ID id);
 

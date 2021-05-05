@@ -4,13 +4,9 @@ import az.company.turbo.dto.ProductDto;
 import az.company.turbo.entity.*;
 import az.company.turbo.repository.*;
 import az.company.turbo.service.ProductService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
@@ -41,11 +37,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<?> create(ProductDto productDto) {
-    return null;
+        ProductEntity entity = new ProductEntity();
+        entity.setModel(checkModel(productDto));
+        entity.setContactInfo(checkContact(productDto));
+        entity.setContactInfo(checkContact(productDto));
+
+
+        return null;
     }
 
+
     @Override
-    public ResponseEntity<?> delete(Long id) {
+    public ResponseEntity<?> delete(Integer id) {
         ProductEntity entity = productRepository.findById(id).orElseThrow(() -> new RuntimeException("product id not founded."));
         productRepository.delete(entity);
         return ResponseEntity.ok(String.format("Raw with %s id successfully deleted.", id));
@@ -63,11 +66,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductDto convertFromEntityToDto(ProductEntity entity) {
-//        return new ProductDto(entity.getId()
-//                , entity.getBrand()
-//                , entity.getModel()
-//                , entity.getFuelType()
-//                ,entity.getContactInfo()
+        ProductDto dto = new ProductDto();
+
+        dto.setId(entity.getId());
+        ModelServiceImpl modelService = new ModelServiceImpl(modelRepository, brandRepository);
+        dto.setModeldto(modelService.convertFromEntityToDto(entity.getModel()));
+        ContactInfoServiceImpl infoService=new ContactInfoServiceImpl(contactInfoRepository,cityRepository);
+        dto.setContactInfoDto(infoService.convertFromEntityToDto(entity.getContactInfo()));
+
+//                ,entity.getFuelType()
+//                , entity.getContactInfo()
 //                , entity.getDescription()
 //                , entity.getDrive()
 //                , entity.getEnginePower()
@@ -75,7 +83,58 @@ public class ProductServiceImpl implements ProductService {
 //                , entity.getValyuta()
 //                , entity.getReleaseDate()
 //                , entity.getPhoto()
-//                ,entity.getBarterStatus();
-//        );
-    return  null;}
+//                , entity.getPrice()
+//                , entity.isBarterStatus()
+//                , entity.isCreditStatus()
+
+        return null;
+    }
+
+    private ProductEntity getById(Integer id) {
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+    }
+
+    private ModelEntity checkModel(ProductDto productDto) {
+        return modelRepository
+                .findById(productDto.getModeldto().getId())
+                .orElseGet(() -> {
+                    ModelEntity modelEntity = new ModelEntity();
+                    modelEntity.setName(productDto.getModeldto().getName());
+                    BrandEntity brand = brandRepository
+                            .findById(productDto.getModeldto().getBrandDto().getId())
+                            .orElseGet(() -> {
+                                BrandEntity brandEntity = new BrandEntity();
+                                brandEntity.setName(productDto.getModeldto().getBrandDto().getName());
+                                brandEntity = brandRepository.save(brandEntity);
+                                return brandEntity;
+                            });
+                    modelEntity.setBrandEntity(brand);
+                    modelEntity = modelRepository.save(modelEntity);
+                    return modelEntity;
+
+                });
+    }
+
+    private ContactInfoEntity checkContact(ProductDto productDto) {
+        return contactInfoRepository
+                .findById(productDto.getContactInfoDto().getId())
+                .orElseGet(() -> {
+                    ContactInfoEntity entity = new ContactInfoEntity();
+                    entity.setName(productDto.getContactInfoDto().getName());
+                    entity.setEmail(productDto.getContactInfoDto().getEmail());
+                    entity.setPhone(productDto.getContactInfoDto().getPhone());
+                    entity.setCityEntity(cityRepository
+                            .findById(productDto.getContactInfoDto().getId())
+                            .orElseGet(() -> {
+                                CityEntity cityEntity = new CityEntity();
+                                cityEntity.setName(productDto.getContactInfoDto().getCity().getName());
+                                cityEntity = cityRepository.save(cityEntity);
+                                return cityEntity;
+                            }));
+                    entity = contactInfoRepository.save(entity);
+                    return entity;
+                });
+    }
+
+
 }

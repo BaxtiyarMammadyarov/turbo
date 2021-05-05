@@ -3,6 +3,7 @@ package az.company.turbo.service.impl;
 
 import az.company.turbo.dto.FuelTypeDto;
 import az.company.turbo.entity.FuelTypeEntity;
+import az.company.turbo.entity.ModelEntity;
 import az.company.turbo.repository.FuelTypeRepository;
 import az.company.turbo.service.FuelTypeService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class FuelTypeServiceImle implements FuelTypeService {
     }
 
     @Override
-    public ResponseEntity<?> create(FuelTypeDto fuelTypeDto) {
+    public ModelEntity create(FuelTypeDto fuelTypeDto) {
         FuelTypeEntity fuelTypeEntity = new FuelTypeEntity();
         fuelTypeEntity.setName(fuelTypeDto.getName());
         fuelTypeEntity = fuelTypeRepository.save(fuelTypeEntity);

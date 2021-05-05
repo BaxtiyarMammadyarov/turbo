@@ -2,16 +2,13 @@ package az.company.turbo.service.impl;
 
 import az.company.turbo.dto.BrandDto;
 import az.company.turbo.entity.BrandEntity;
+import az.company.turbo.entity.ModelEntity;
 import az.company.turbo.repository.BrandRepository;
 import az.company.turbo.service.BrandService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +23,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
 
-    public ResponseEntity<?> create(BrandDto brandDto) {
+    public ModelEntity create(BrandDto brandDto) {
         BrandEntity entity = new BrandEntity();
         entity.setName(brandDto.getName());
         entity = brandRepository.save(entity);

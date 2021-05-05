@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Repository
 @EnableJpaRepositories
-public interface ProductRepository extends JpaRepository<ProductEntity,Long> {
+public interface ProductRepository extends JpaRepository<ProductEntity,Integer> {
 
     ProductEntity[] findAllByBrandId(int id);
 
