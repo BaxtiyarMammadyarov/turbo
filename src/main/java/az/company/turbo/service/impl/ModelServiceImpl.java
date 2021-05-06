@@ -67,7 +67,7 @@ public class ModelServiceImpl implements ModelService {
         return ResponseEntity.ok(dtoList);
     }
 
-       ModelDto convertFromEntityToDto(ModelEntity entity) {
+    ModelDto convertFromEntityToDto(ModelEntity entity) {
         return new ModelDto(entity.getId(), entity.getName(), new BrandDto(entity.getBrandEntity().getId(), entity.getName()));
     }
 
@@ -75,7 +75,7 @@ public class ModelServiceImpl implements ModelService {
         return modelRepository.findById(id).orElseThrow(() -> new RuntimeException("model id not founded."));
     }
 
-      BrandEntity checkBrandByModel(ModelDto modelDto) {
+    BrandEntity checkBrandByModel(ModelDto modelDto) {
         return brandRepository
                 .findById(modelDto
                         .getBrandDto()

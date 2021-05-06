@@ -26,9 +26,9 @@ public class ContactInfoServiceImpl implements ContactInfoService {
 
     public ResponseEntity<?> create(ContactInfoDto contact) {
         ContactInfoEntity entity = new ContactInfoEntity();
-        entity=copyFromDtoToEntity(contact,entity);
+        entity = copyFromDtoToEntity(contact, entity);
         entity = contactRepo.save(entity);
-        contact=convertFromEntityToDto(entity);
+        contact = convertFromEntityToDto(entity);
         return ResponseEntity.ok(contact);
     }
 
@@ -42,9 +42,9 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     @Override
     public ResponseEntity<?> update(ContactInfoDto contact) {
         ContactInfoEntity entity = getbById(contact.getId());
-         entity=copyFromDtoToEntity(contact,entity);
-         entity = contactRepo.save(entity);
-         return  ResponseEntity.ok(entity);
+        entity = copyFromDtoToEntity(contact, entity);
+        entity = contactRepo.save(entity);
+        return ResponseEntity.ok(entity);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ContactInfoServiceImpl implements ContactInfoService {
         return ResponseEntity.ok(contact);
     }
 
-      ContactInfoDto convertFromEntityToDto(ContactInfoEntity entity) {
+    ContactInfoDto convertFromEntityToDto(ContactInfoEntity entity) {
         return new ContactInfoDto(
                 entity.getId()
                 , entity.getName()

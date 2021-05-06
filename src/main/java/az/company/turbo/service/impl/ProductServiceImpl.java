@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
@@ -38,21 +41,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ResponseEntity<?> create(ProductDto productDto) {
         ProductEntity entity = new ProductEntity();
-        entity.setModel(checkModel(productDto));
-        entity.setContactInfo(checkContact(productDto));
-        entity.setFuelType(checkFuelType(productDto));
-        entity.setCreditStatus(productDto.isCreditStatus());
-        entity.setDrive(productDto.getDrive());
-        entity.setEnginePower(productDto.getEnginePower());
-        entity.setPhoto(productDto.getPhoto());
-        entity.setMileage(productDto.getMileage());
-        entity.setPrice(productDto.getPrice());
-        entity.setValyuta(productDto.getValyuta());
-        entity.setBarterStatus(productDto.isCreditStatus());
-        entity.setDescription(productDto.getDesc());
-        entity.setReleaseDate(productDto.getReleaseDate());
-        entity= productRepository.save(entity);
-        productDto=convertFromEntityToDto(entity);
+        entity = concertFromDtoEntity(productDto, entity);
+        entity = productRepository.save(entity);
+        productDto = convertFromEntityToDto(entity);
         return ResponseEntity.ok(productDto);
     }
 
@@ -66,23 +57,32 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ResponseEntity<?> update(ProductDto productDto) {
-        return null;
+        ProductEntity entity = getById(productDto.getId());
+        entity = concertFromDtoEntity(productDto, entity);
+        entity = productRepository.save(entity);
+        productDto = convertFromEntityToDto(entity);
+        return ResponseEntity.ok(productDto);
     }
 
     @Override
     public ResponseEntity<?> get() {
+        List<ProductDto> list = productRepository
+                .findAll()
+                .stream()
+                .map(this::convertFromEntityToDto)
+                .collect(Collectors.toList());
 
-        return null;
+        return ResponseEntity.ok(list);
     }
 
-    private ProductDto convertFromEntityToDto(ProductEntity entity) {
+    ProductDto convertFromEntityToDto(ProductEntity entity) {
         ProductDto dto = new ProductDto();
         dto.setId(entity.getId());
         ModelServiceImpl modelService = new ModelServiceImpl(modelRepository, brandRepository);
         dto.setModeldto(modelService.convertFromEntityToDto(entity.getModel()));
-        ContactInfoServiceImpl infoService=new ContactInfoServiceImpl(contactInfoRepository,cityRepository);
+        ContactInfoServiceImpl infoService = new ContactInfoServiceImpl(contactInfoRepository, cityRepository);
         dto.setContactInfoDto(infoService.convertFromEntityToDto(entity.getContactInfo()));
-        FuelTypeServiceImle fuelService=new FuelTypeServiceImle(fuelTypeRepository);
+        FuelTypeServiceImle fuelService = new FuelTypeServiceImle(fuelTypeRepository);
         dto.setFuelType(fuelService.convertFromEntityToDto(entity.getFuelType()));
         dto.setEnginePower(entity.getEnginePower());
         dto.setDrive(entity.getDrive());
@@ -100,15 +100,16 @@ public class ProductServiceImpl implements ProductService {
     private ProductEntity getById(Integer id) {
         return productRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
     }
-    private FuelTypeEntity checkFuelType(ProductDto productDto){
+
+    private FuelTypeEntity checkFuelType(ProductDto productDto) {
         return fuelTypeRepository
                 .findById(productDto.getFuelType().getId())
                 .orElseGet(() -> {
-                  FuelTypeEntity fuelType =new FuelTypeEntity();
-                  fuelType.setName(productDto.getFuelType().getName());
-                  fuelType=fuelTypeRepository.save(fuelType);
-                  return  fuelType;
-        });
+                    FuelTypeEntity fuelType = new FuelTypeEntity();
+                    fuelType.setName(productDto.getFuelType().getName());
+                    fuelType = fuelTypeRepository.save(fuelType);
+                    return fuelType;
+                });
 
     }
 
@@ -152,6 +153,23 @@ public class ProductServiceImpl implements ProductService {
                     entity = contactInfoRepository.save(entity);
                     return entity;
                 });
+    }
+
+    private ProductEntity concertFromDtoEntity(ProductDto productDto, ProductEntity entity) {
+        entity.setModel(checkModel(productDto));
+        entity.setContactInfo(checkContact(productDto));
+        entity.setFuelType(checkFuelType(productDto));
+        entity.setCreditStatus(productDto.isCreditStatus());
+        entity.setDrive(productDto.getDrive());
+        entity.setEnginePower(productDto.getEnginePower());
+        entity.setPhoto(productDto.getPhoto());
+        entity.setMileage(productDto.getMileage());
+        entity.setPrice(productDto.getPrice());
+        entity.setValyuta(productDto.getValyuta());
+        entity.setBarterStatus(productDto.isCreditStatus());
+        entity.setDescription(productDto.getDesc());
+        entity.setReleaseDate(productDto.getReleaseDate());
+        return entity;
     }
 
 

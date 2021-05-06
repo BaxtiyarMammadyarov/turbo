@@ -56,7 +56,7 @@ public class FuelTypeServiceImle implements FuelTypeService {
         return ResponseEntity.ok(dtoList);
     }
 
-     FuelTypeDto convertFromEntityToDto(FuelTypeEntity entity) {
+    FuelTypeDto convertFromEntityToDto(FuelTypeEntity entity) {
         return new FuelTypeDto(entity.getId(), entity.getName());
     }
 

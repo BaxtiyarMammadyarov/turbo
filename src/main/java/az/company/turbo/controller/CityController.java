@@ -13,9 +13,11 @@ import java.util.List;
 @Api(description = "Actions on City")
 public class CityController {
     private final CityService service;
+
     public CityController(CityService cityService) {
         this.service = cityService;
     }
+
     @PostMapping
     public ResponseEntity<String> create(@RequestBody CityDto city) {
         return (ResponseEntity<String>) service.create(city);

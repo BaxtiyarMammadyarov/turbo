@@ -12,16 +12,17 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
-@Table(name = "brand",schema = "turbo")
+@Table(name = "brand", schema = "turbo")
 public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(nullable = false, unique = true,length =15)
+    @Column(nullable = false, unique = true, length = 15)
     private String name;
-    public BrandEntity(String name){
-       this.name=name;
+
+    public BrandEntity(String name) {
+        this.name = name;
     }
 
 }

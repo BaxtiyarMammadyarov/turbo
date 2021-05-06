@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 
@@ -31,8 +30,6 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "drive")
     private DriveEnum drive;//outrun
-
-    private Short releaseDate;//istehsal tarixi
     @Column(length = 19)
     private BigDecimal price;//qiymeti
     @Enumerated(EnumType.STRING)
@@ -41,6 +38,8 @@ public class ProductEntity {
     private int mileage;//yuruyusu
     @Column(name = "engine_power")
     private Short enginePower;//muherrik gucu
+    private Short releaseDate;//istehsal tarixi
+
     @Column(name = "credit_status")
     private boolean creditStatus;//kredit statusu
     @Column(name = "barter_status")
@@ -53,10 +52,4 @@ public class ProductEntity {
     @JoinColumn(name = "contact_id", referencedColumnName = "id")
     private ContactInfoEntity contactInfo;
 
-
-
-
-//    @ManyToOne(targetEntity = CityEntity.class)
-//    @JoinColumn(name = "city_id", referencedColumnName = "id")
-//    private CityEntity city;
 }

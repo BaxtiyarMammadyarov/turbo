@@ -20,12 +20,12 @@ public class ModelController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ModelDto modelDto) {
-        return  modelService.create(modelDto);
+        return modelService.create(modelDto);
     }
 
     @GetMapping
     public ResponseEntity<?> get() {
-        return  modelService.get();
+        return modelService.get();
     }
 
     @DeleteMapping("/{id}")
