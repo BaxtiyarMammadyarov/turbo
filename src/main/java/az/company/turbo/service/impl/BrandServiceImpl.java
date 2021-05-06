@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class BrandServiceImpl implements BrandService {
     public BrandServiceImpl(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;

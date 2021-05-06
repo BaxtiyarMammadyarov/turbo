@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class FilterServiceImpl implements FilterService {
     private final ProductRepository productRepository;
 
