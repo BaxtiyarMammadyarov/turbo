@@ -21,8 +21,5 @@ public class BrandEntity {
     @Column(nullable = false, unique = true, length = 15)
     private String name;
 
-    public BrandEntity(String name) {
-        this.name = name;
-    }
 
 }

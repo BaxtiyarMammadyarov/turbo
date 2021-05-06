@@ -67,7 +67,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     ModelDto convertFromEntityToDto(ModelEntity entity) {
-        return new ModelDto(entity.getId(), entity.getName(), new BrandDto(entity.getBrandEntity().getId(), entity.getName()));
+        return new ModelDto(entity.getId(), entity.getName(), new BrandDto(entity.getBrandEntity().getId(), entity.getBrandEntity().getName()));
     }
 
     private ModelEntity getById(Integer id) {

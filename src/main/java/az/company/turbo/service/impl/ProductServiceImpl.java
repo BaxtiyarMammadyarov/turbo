@@ -1,12 +1,12 @@
 package az.company.turbo.service.impl;
 
-import az.company.turbo.dto.ProductDto;
+import az.company.turbo.dto.*;
 import az.company.turbo.entity.*;
 import az.company.turbo.repository.*;
 import az.company.turbo.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -77,12 +77,20 @@ public class ProductServiceImpl implements ProductService {
     ProductDto convertFromEntityToDto(ProductEntity entity) {
         ProductDto dto = new ProductDto();
         dto.setId(entity.getId());
-        ModelServiceImpl modelService = new ModelServiceImpl(modelRepository, brandRepository);
-        dto.setModeldto(modelService.convertFromEntityToDto(entity.getModel()));
-        ContactInfoServiceImpl infoService = new ContactInfoServiceImpl(contactInfoRepository, cityRepository);
-        dto.setContactInfoDto(infoService.convertFromEntityToDto(entity.getContactInfo()));
-        FuelTypeServiceImle fuelService = new FuelTypeServiceImle(fuelTypeRepository);
-        dto.setFuelType(fuelService.convertFromEntityToDto(entity.getFuelType()));
+
+        dto.setModeldto(new ModelDto(entity.getModel().getId()
+                ,entity.getModel().getName()
+                ,new BrandDto(entity.getModel().getBrandEntity().getId()
+                ,entity.getModel().getBrandEntity().getName())));
+
+        dto.setContactInfoDto(new ContactInfoDto(entity.getContactInfo().getId()
+                ,entity.getContactInfo().getName()
+                ,entity.getContactInfo().getEmail()
+                ,entity.getContactInfo().getPhone()
+                ,new CityDto(entity.getContactInfo().getCityEntity().getId(),
+                entity.getContactInfo().getCityEntity().getName())));
+
+        dto.setFuelType(new FuelTypeDto(entity.getFuelType().getId(),entity.getFuelType().getName()));
         dto.setEnginePower(entity.getEnginePower());
         dto.setDrive(entity.getDrive());
         dto.setDesc(entity.getDescription());
@@ -93,6 +101,10 @@ public class ProductServiceImpl implements ProductService {
         dto.setValyuta(entity.getValyuta());
         dto.setPhoto(entity.getPhoto());
         dto.setPrice(entity.getPrice());
+        dto.setTransmission(entity.getTransmission());
+        dto.setColor(entity.getColor());
+        dto.setBodyType(entity.getBodyType());
+        dto.setEngineCapacity(entity.getEngineCapacity());
         return dto;
     }
 
@@ -168,6 +180,10 @@ public class ProductServiceImpl implements ProductService {
         entity.setBarterStatus(productDto.isCreditStatus());
         entity.setDescription(productDto.getDesc());
         entity.setReleaseDate(productDto.getReleaseDate());
+        entity.setColor(productDto.getColor());
+        entity.setEngineCapacity(productDto.getEngineCapacity());
+        entity.setBodyType(productDto.getBodyType());
+        entity.setTransmission(productDto.getTransmission());
         return entity;
     }
 

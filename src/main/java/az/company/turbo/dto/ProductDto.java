@@ -1,8 +1,7 @@
 package az.company.turbo.dto;
 
 
-import az.company.turbo.dto.enums.DriveEnum;
-import az.company.turbo.dto.enums.Valyuta;
+import az.company.turbo.dto.enums.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
@@ -41,6 +41,10 @@ public class ProductDto {
     private boolean barter;
     private String desc;
     private String photo;
+    private Body_Type bodyType;
+    private Colors color;
+    private float engineCapacity;
+    private Transmission transmission;
     @NotBlank(message = "contact info  can't be empty or null")
     private ContactInfoDto contactInfoDto;
 

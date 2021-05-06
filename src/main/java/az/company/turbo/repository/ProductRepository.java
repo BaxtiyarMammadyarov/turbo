@@ -1,20 +1,15 @@
 package az.company.turbo.repository;
 
 
-import az.company.turbo.dto.BrandDto;
-import az.company.turbo.entity.BrandEntity;
 import az.company.turbo.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 
 @Repository
-@EnableJpaRepositories
 public interface ProductRepository extends JpaRepository<ProductEntity, Integer> {
 
     @Query(value = "select p.* from turbo.product p join turbo.model m " +
