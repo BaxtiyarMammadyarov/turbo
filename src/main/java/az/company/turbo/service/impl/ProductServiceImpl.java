@@ -78,6 +78,8 @@ public class ProductServiceImpl implements ProductService {
         ProductDto dto = new ProductDto();
         dto.setId(entity.getId());
 
+        dto.setBrandDto(new BrandDto(entity.getBrandEntity().getId(),entity.getBrandEntity().getName()));
+
         dto.setModeldto(new ModelDto(entity.getModel().getId()
                 ,entity.getModel().getName()
                 ,new BrandDto(entity.getModel().getBrandEntity().getId()
@@ -109,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductEntity getById(Integer id) {
-        return productRepository.findById(id).orElseThrow(() -> new RuntimeException(""));
+        return productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product id not founded."));
     }
 
     private FuelTypeEntity checkFuelType(ProductDto productDto) {
@@ -144,6 +146,11 @@ public class ProductServiceImpl implements ProductService {
 
                 });
     }
+    private BrandEntity checkBrand(ProductDto productDto){
+        return brandRepository
+                .findById(productDto.getBrandDto().getId())
+                .orElseThrow(() -> new RuntimeException("brand id not found"));
+    }
 
     private ContactInfoEntity checkContact(ProductDto productDto) {
         return contactInfoRepository
@@ -167,6 +174,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ProductEntity concertFromDtoEntity(ProductDto productDto, ProductEntity entity) {
+       entity.setBrandEntity(checkBrand(productDto));
         entity.setModel(checkModel(productDto));
         entity.setContactInfo(checkContact(productDto));
         entity.setFuelType(checkFuelType(productDto));

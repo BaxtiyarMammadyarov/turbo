@@ -20,6 +20,9 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @ManyToOne(targetEntity = BrandEntity.class)
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    private BrandEntity brandEntity;
     @ManyToOne(targetEntity = ModelEntity.class)
     @JoinColumn(name = "model_id", referencedColumnName = "id")
     private ModelEntity model;

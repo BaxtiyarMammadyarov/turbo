@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 @Setter
 public class ProductDto {
     private Integer id;
+    @NotBlank(message = "brand name can't be empty or null")
+    private BrandDto brandDto;
     @NotBlank(message = "model name can't be empty or null")
     private ModelDto modeldto;
     @NotBlank(message = "fuel name can't be empty or null")
