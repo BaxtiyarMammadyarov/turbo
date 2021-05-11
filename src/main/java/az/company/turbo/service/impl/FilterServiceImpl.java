@@ -1,9 +1,7 @@
 package az.company.turbo.service.impl;
 
 import az.company.turbo.dto.*;
-import az.company.turbo.entity.BrandEntity;
-import az.company.turbo.entity.ModelEntity;
-import az.company.turbo.entity.ProductEntity;
+import az.company.turbo.entity.*;
 import az.company.turbo.repository.*;
 import az.company.turbo.service.FilterService;
 import org.springframework.http.ResponseEntity;
@@ -42,25 +40,9 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public ResponseEntity<?> findProductByBrandName(String name) {
-        BrandEntity brand = brandRepository
-                .findByName(name)
-                .orElseThrow(() -> new RuntimeException("Brand name not found"));
-
-        List<ProductDto> list = productRepository
-                .findProductByBrandId(brand.getId())
-                .stream()
-                .map(this::convertFromEntityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
-
-    @Override
-    public ResponseEntity<?> findProductByModelId(Integer id) {
-        List<ProductDto> list = productRepository
-                .findProductByModelId(id)
-                .stream()
-                .map(this::convertFromEntityToDto)
-                .collect(Collectors.toList());
+        BrandEntity brand = brandRepository.findByName(name).orElseThrow(() -> new RuntimeException("brand name not found"));
+        List<ProductDto> list = productRepository.findProductBrandId(brand.getId())
+                .stream().map(this::convertFromEntityToDto).collect(Collectors.toList());
         return ResponseEntity.ok(list);
     }
 
@@ -68,6 +50,7 @@ public class FilterServiceImpl implements FilterService {
     public ResponseEntity<?> findProductByModelName(String name) {
         ModelEntity model = modelRepository.findByName(name).orElseThrow(() -> new RuntimeException("Model name not found."));
         List<ProductDto> list = productRepository.findProductByModelId(model.getId()).stream().map(this::convertFromEntityToDto).collect(Collectors.toList());
+
         return ResponseEntity.ok(list);
     }
 
@@ -83,17 +66,28 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public ResponseEntity<?> findProductByModelNameAndPriceBetween(String name, BigDecimal min, BigDecimal max) {
-         List<ProductDto>list=productRepository.findProductByModelNameAndPriceBetween( name, min, max)
-                 .stream()
-                 .map(this::convertFromEntityToDto)
-                 .collect(Collectors.toList());
+        List<ProductDto> list = productRepository.findProductByModelNameAndPriceBetween(name, min, max)
+                .stream()
+                .map(this::convertFromEntityToDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(list);
     }
+
+    public ResponseEntity<?> findProductByBrandNameAndModelNameAndPriceBetween(String brandname, String modelname, BigDecimal min, BigDecimal max) {
+         BrandEntity brandEntity=brandRepository.findByName(brandname).orElseThrow(() -> new RuntimeException("brand name not found"));
+         ModelEntity modelEntity=modelRepository.findByName(modelname).orElseThrow(() -> new RuntimeException("model name not found"));
+        List<ProductDto> list = productRepository.findProductByBrandAndModeldAndPriceBetween(brandEntity.getId(),modelEntity.getId(), min, max)
+                .stream()
+                .map(this::convertFromEntityToDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(list);
+    }
+
 
     private ProductDto convertFromEntityToDto(ProductEntity entity) {
         ProductDto dto = new ProductDto();
         dto.setId(entity.getId());
-
+        dto.setBrandDto(new BrandDto(entity.getBrandEntity().getId(), entity.getBrandEntity().getName()));
         dto.setModeldto(new ModelDto(entity.getModel().getId()
                 , entity.getModel().getName()
                 , new BrandDto(entity.getModel().getBrandEntity().getId()

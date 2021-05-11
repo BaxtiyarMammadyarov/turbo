@@ -17,10 +17,11 @@ public class ContactInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column( nullable = false,unique = true)
     private String name;
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone", nullable = false,unique = true)
     private String phone;
-    @Column(name = "email", nullable = false, length = 50)
+    @Column(name = "email", nullable = false, length = 50,unique = true)
     private String email;
     @ManyToOne(targetEntity = CityEntity.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id", referencedColumnName = "id")

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @ControllerAdvice
 public class ExceptionHandlerController {
     @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(NotFoundException ex) {
         return  ErrorResponse
                 .builder()
@@ -23,5 +23,16 @@ public class ExceptionHandlerController {
                 .message(ex.getMessage())
                 .build();
     }
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleRuntimeException(RuntimeException ex) {
+        return  ErrorResponse
+                .builder()
+                .code(301)
+                .dateTime(LocalDateTime.now())
+                .message(ex.getMessage())
+                .build();
+    }
+
 
 }

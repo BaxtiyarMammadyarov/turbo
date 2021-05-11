@@ -42,9 +42,9 @@ public class ProductEntity {
     @Column(name = "engine_power")
     private Short enginePower;//muherrik gucu
     private Short releaseDate;//istehsal tarixi
-    @Column(name = "credit_status",nullable = false,insertable = false )
+    @Column(name = "credit_status",nullable = false )
     private boolean creditStatus;//kredit statusu
-    @Column(name = "barter_status",nullable = false,insertable = false)
+    @Column(name = "barter_status",nullable = false)
     private boolean barterStatus;
     @Column(name = "description")
     private String description;

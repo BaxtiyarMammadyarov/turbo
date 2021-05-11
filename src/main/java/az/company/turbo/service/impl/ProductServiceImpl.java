@@ -185,7 +185,7 @@ public class ProductServiceImpl implements ProductService {
         entity.setMileage(productDto.getMileage());
         entity.setPrice(productDto.getPrice());
         entity.setValyuta(productDto.getValyuta());
-        entity.setBarterStatus(productDto.isCreditStatus());
+        entity.setBarterStatus(productDto.isBarter());
         entity.setDescription(productDto.getDesc());
         entity.setReleaseDate(productDto.getReleaseDate());
         entity.setColor(productDto.getColor());

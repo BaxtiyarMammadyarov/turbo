@@ -12,9 +12,11 @@ import java.math.BigDecimal;
 public interface FilterService {
 
   ResponseEntity<?>findProductByBrandName(String name);
-  ResponseEntity<?> findProductByModelId(Integer id);
   ResponseEntity<?> findProductByModelName(String name);
   ResponseEntity<?>findProductByPriceBetween(BigDecimal num1,BigDecimal num2);
   ResponseEntity<?>findProductByModelNameAndPriceBetween(String name,BigDecimal min,BigDecimal max);
+
+  ResponseEntity<?> findProductByBrandNameAndModelNameAndPriceBetween(String brandname, String modelname, BigDecimal min, BigDecimal max);
+
 
 }

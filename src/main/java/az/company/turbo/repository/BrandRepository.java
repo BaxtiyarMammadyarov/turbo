@@ -4,6 +4,7 @@ package az.company.turbo.repository;
 import az.company.turbo.entity.BrandEntity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,6 +15,6 @@ public interface BrandRepository extends JpaRepository<BrandEntity, Integer> {
 
 
 
-
-   Optional<BrandEntity> findByName(String name);
+ @Query(name = "select * from brand where brand.name=?1",nativeQuery = true)
+ Optional<BrandEntity> findByName(String name);
 }
