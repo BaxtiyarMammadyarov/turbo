@@ -1,9 +1,12 @@
 package az.company.turbo.service.impl;
 
+
 import az.company.turbo.dto.*;
 import az.company.turbo.entity.*;
 import az.company.turbo.repository.*;
 import az.company.turbo.service.FilterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,78 +16,29 @@ import java.util.stream.Collectors;
 
 @Service
 public class FilterServiceImpl implements FilterService {
+    private static final Logger log = LoggerFactory.getLogger(FilterServiceImpl.class);
     private final ProductRepository productRepository;
-    private final BrandRepository brandRepository;
-    private final ModelRepository modelRepository;
-    private final CityRepository cityRepository;
-    private final FuelTypeRepository fuelTypeRepository;
-    private final ContactInfoRepository contactInfoRepository;
 
-    public FilterServiceImpl
-            (
-                    ProductRepository productRepository
-                    , BrandRepository brandRepository
-                    , ModelRepository modelRepository
-                    , CityRepository cityRepository
-                    , FuelTypeRepository fuelTypeRepository
-                    , ContactInfoRepository contactInfoRepository
-            ) {
+
+    public FilterServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.brandRepository = brandRepository;
-        this.modelRepository = modelRepository;
-        this.cityRepository = cityRepository;
-        this.fuelTypeRepository = fuelTypeRepository;
-        this.contactInfoRepository = contactInfoRepository;
-    }
-
-
-    @Override
-    public ResponseEntity<?> findProductByBrandName(String name) {
-        BrandEntity brand = brandRepository.findByName(name).orElseThrow(() -> new RuntimeException("brand name not found"));
-        List<ProductDto> list = productRepository.findProductBrandId(brand.getId())
-                .stream().map(this::convertFromEntityToDto).collect(Collectors.toList());
-        return ResponseEntity.ok(list);
     }
 
     @Override
-    public ResponseEntity<?> findProductByModelName(String name) {
-        ModelEntity model = modelRepository.findByName(name).orElseThrow(() -> new RuntimeException("Model name not found."));
-        List<ProductDto> list = productRepository.findProductByModelId(model.getId()).stream().map(this::convertFromEntityToDto).collect(Collectors.toList());
-
-        return ResponseEntity.ok(list);
-    }
-
-    @Override
-    public ResponseEntity<?> findProductByPriceBetween(BigDecimal num1, BigDecimal num2) {
+    public ResponseEntity<?> getProduct(String brandName, String modelName, BigDecimal minPrice, BigDecimal maxPrice, Short minDate, Short maxDate, String cityName) {
+        log.info("Starter getProduct");
         List<ProductDto> list = productRepository
-                .findPoductByPriceBetween(num1, num2)
+                .getProduct(brandName, modelName, cityName, minPrice, maxPrice, minDate, maxDate)
                 .stream()
                 .map(this::convertFromEntityToDto)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
-
-    @Override
-    public ResponseEntity<?> findProductByModelNameAndPriceBetween(String name, BigDecimal min, BigDecimal max) {
-        List<ProductDto> list = productRepository.findProductByModelNameAndPriceBetween(name, min, max)
-                .stream()
-                .map(this::convertFromEntityToDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
-    }
-
-    public ResponseEntity<?> findProductByBrandNameAndModelNameAndPriceBetween(String brandname, String modelname, BigDecimal min, BigDecimal max) {
-         BrandEntity brandEntity=brandRepository.findByName(brandname).orElseThrow(() -> new RuntimeException("brand name not found"));
-         ModelEntity modelEntity=modelRepository.findByName(modelname).orElseThrow(() -> new RuntimeException("model name not found"));
-        List<ProductDto> list = productRepository.findProductByBrandAndModeldAndPriceBetween(brandEntity.getId(),modelEntity.getId(), min, max)
-                .stream()
-                .map(this::convertFromEntityToDto)
-                .collect(Collectors.toList());
+        log.info("ended getProduct");
         return ResponseEntity.ok(list);
     }
 
 
     private ProductDto convertFromEntityToDto(ProductEntity entity) {
+        log.info(" starter convertFromEntityToDto");
         ProductDto dto = new ProductDto();
         dto.setId(entity.getId());
         dto.setBrandDto(new BrandDto(entity.getBrandEntity().getId(), entity.getBrandEntity().getName()));
@@ -115,7 +69,41 @@ public class FilterServiceImpl implements FilterService {
         dto.setColor(entity.getColor());
         dto.setBodyType(entity.getBodyType());
         dto.setEngineCapacity(entity.getEngineCapacity());
+        log.info(" ended convertFromEntityToDto");
         return dto;
     }
+//
+//    private String isNotNull(String brandname, String modelname, String cityname) {
+//        log.info(" starter isNotNull ");
+//        String keyword = " ";
+//        if (brandname != null) keyword += brandname;
+//        if (modelname != null) keyword += " " + modelname;
+//        if (cityname != null) keyword += " " + cityname;
+//        log.info(" ended isNotNull ");
+//        return keyword;
+//    }
+
+//    private BigDecimal maxPrice(BigDecimal maxprice) {
+//        if (maxprice != null) return maxprice;
+//        else return BigDecimal.valueOf(Double.MAX_VALUE);
+//
+//    }
+//
+//    private BigDecimal minPrice(BigDecimal minprice) {
+//        if (minprice != null) return minprice;
+//        else return BigDecimal.valueOf(0.0);
+//    }
+//
+//    private Short maxDate(Short date) {
+//        if (date != null) return date;
+//        else return Short.MAX_VALUE;
+//    }
+//
+//    private Short minDate(Short date) {
+//        if (date != null) return date;
+//        else return 0;
+//    }
+
+
 }
 

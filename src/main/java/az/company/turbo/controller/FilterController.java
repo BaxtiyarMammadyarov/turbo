@@ -19,33 +19,19 @@ public class FilterController {
     }
 
 
-    @GetMapping("/model/{model_name}")
-    public ResponseEntity<?> getByModelName(@PathVariable("model_name") String name) {
-        return filterService.findProductByModelName(name);
+    @GetMapping("/search")
+    public ResponseEntity<?> getSearch(
+            @RequestParam (defaultValue =" ")String brandName,
+            @RequestParam(defaultValue =" ") String modelName,
+            @RequestParam (defaultValue =""+Double.MIN_VALUE)BigDecimal minPrice,
+            @RequestParam(defaultValue =""+Double.MAX_VALUE) BigDecimal maxPrice,
+            @RequestParam(defaultValue =""+Short.MIN_VALUE) Short minDate ,
+            @RequestParam (defaultValue =""+Short.MAX_VALUE)Short maxDate,
+            @RequestParam(defaultValue =" ") String cityName ) {
+        return filterService.getProduct(brandName,modelName,minPrice,maxPrice,minDate,maxDate,cityName);
     }
 
-    @GetMapping("/brand/{brand_name}")
-    public ResponseEntity<?> getByBrandName(@PathVariable("brand_name") String name) {
-        return filterService.findProductByBrandName(name);
-    }
 
-    @GetMapping("/price/price_between")
-    public ResponseEntity<?> getByPriceBetween(@RequestParam("min") BigDecimal min, @RequestParam("max") BigDecimal max) {
-        return filterService.findProductByPriceBetween(min, max);
-    }
-
-    @GetMapping("/model_and_price/model_and_pricebetween")
-    public ResponseEntity<?> getByModelPriceBetween(@RequestParam("name") String name, @RequestParam("min") BigDecimal min, @RequestParam("max") BigDecimal max) {
-        return filterService.findProductByModelNameAndPriceBetween(name, min, max);
-    }
-    @GetMapping("/brandname_modelname_And_PriceBetween/{brand}/{model}/{min}/{max}")
-   public ResponseEntity<?>getProductByBrandNameModelNameAndPriceBetween(
-           @PathVariable("brand") String brandname
-            ,@PathVariable("model")String modelname
-            ,@PathVariable("min")BigDecimal min
-            ,@PathVariable("max")BigDecimal max){
-        return  filterService.findProductByBrandNameAndModelNameAndPriceBetween(brandname,modelname,min,max);
-    };
 
 
 
