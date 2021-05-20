@@ -1,15 +1,10 @@
 package az.company.turbo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 
-@NoArgsConstructor
+
 
 
 public class SearchDto {
@@ -25,25 +20,27 @@ public class SearchDto {
     private BigDecimal minPrice;
 
     public SearchDto(String brandName, String modelName, String cityName, boolean creditStatus, boolean barterStatus, Short maxReleaseDate, Short minReleaseDate, BigDecimal maxPrice, BigDecimal minPrice) {
-        if(brandName !=null)this.brandName = brandName;
-        else this.brandName=" ";
-        if(modelName!=null)this.modelName = modelName;
-        else this.brandName=" ";
-        if(!cityName.equals(""))this.cityName = cityName;
-        else this.cityName=" ";
-        if(creditStatus)this.creditStatus = creditStatus;
-        else this.creditStatus=false;
-        if(barterStatus)this.barterStatus = barterStatus;
-        else this.barterStatus=false;
-        if(maxReleaseDate.shortValue()!=0) this.maxReleaseDate = maxReleaseDate;
-        else  this.maxReleaseDate=Short.MAX_VALUE;
+        if (!brandName.equals("")) this.brandName = brandName;
+        else this.brandName = " ";
+        if (!modelName.equals("")) this.modelName = modelName;
+        else this.modelName = " ";
+        if (!cityName.equals("")) this.cityName = cityName;
+        else this.cityName = " ";
+        if (creditStatus) this.creditStatus = creditStatus;
+        else this.creditStatus = false;
+        if (barterStatus) this.barterStatus = barterStatus;
+        else this.barterStatus = false;
+        if (maxReleaseDate!=0) this.maxReleaseDate = maxReleaseDate;
+        else this.maxReleaseDate = Short.MAX_VALUE;
 
         this.minReleaseDate = minReleaseDate;
 
-        if(maxPrice.doubleValue()!=0) this.maxPrice = maxPrice;
-        else  this.maxPrice=BigDecimal.valueOf(Double.MAX_VALUE);
+
+        if (maxPrice.doubleValue()!=0.0) this.maxPrice = maxPrice;
+        else this.maxPrice = BigDecimal.valueOf(Double.MAX_VALUE);
 
         this.minPrice = minPrice;
+
 
     }
 
@@ -52,8 +49,8 @@ public class SearchDto {
     }
 
     public void setBrandName(String brandName) {
-        if(!brandName.equals(""))this.brandName = brandName;
-        else this.brandName=" ";
+        if (!brandName.equals("")) this.brandName = brandName;
+        else this.brandName = " ";
     }
 
     public String getModelName() {
@@ -61,8 +58,8 @@ public class SearchDto {
     }
 
     public void setModelName(String modelName) {
-        if(!modelName.equals(""))this.modelName = modelName;
-        else this.brandName=" ";
+        if (!modelName.equals("")) this.modelName = modelName;
+        else this.brandName = " ";
     }
 
     public String getCityName() {
@@ -70,8 +67,8 @@ public class SearchDto {
     }
 
     public void setCityName(String cityName) {
-        if(!cityName.equals(""))this.cityName = cityName;
-        else this.cityName=" ";
+        if (!cityName.equals("")) this.cityName = cityName;
+        else this.cityName = " ";
     }
 
     public boolean isCreditStatus() {
@@ -79,8 +76,8 @@ public class SearchDto {
     }
 
     public void setCreditStatus(boolean creditStatus) {
-        if(creditStatus)this.creditStatus = creditStatus;
-        else this.creditStatus=false;
+        if (creditStatus) this.creditStatus = creditStatus;
+        else this.creditStatus = false;
     }
 
     public boolean isBarterStatus() {
@@ -88,8 +85,8 @@ public class SearchDto {
     }
 
     public void setBarterStatus(boolean barterStatus) {
-        if(barterStatus)this.barterStatus = barterStatus;
-        else this.barterStatus=false;
+        if (barterStatus) this.barterStatus = barterStatus;
+        else this.barterStatus = false;
     }
 
     public Short getMaxReleaseDate() {
@@ -97,8 +94,8 @@ public class SearchDto {
     }
 
     public void setMaxReleaseDate(Short maxReleaseDate) {
-        if(maxReleaseDate!=null)this.maxReleaseDate = maxReleaseDate;
-        else this.maxReleaseDate=Short.MAX_VALUE;
+        if (maxReleaseDate!=0) this.maxReleaseDate = maxReleaseDate;
+        else this.maxReleaseDate = Short.MAX_VALUE;
     }
 
     public Short getMinReleaseDate() {
@@ -106,8 +103,8 @@ public class SearchDto {
     }
 
     public void setMinReleaseDate(Short minReleaseDate) {
-        if(minReleaseDate!=null) this.minReleaseDate = minReleaseDate;
-        else this.minReleaseDate=Short.MIN_VALUE;
+        if (minReleaseDate!=0) this.minReleaseDate = minReleaseDate;
+        else this.minReleaseDate = 0;
     }
 
     public BigDecimal getMaxPrice() {
@@ -115,8 +112,8 @@ public class SearchDto {
     }
 
     public void setMaxPrice(BigDecimal maxPrice) {
-        if(maxPrice!=null)this.maxPrice = maxPrice;
-        else this.maxPrice=BigDecimal.valueOf(Double.MAX_VALUE);
+        if (maxPrice.doubleValue()!=0.0) this.maxPrice = maxPrice;
+        else this.maxPrice = BigDecimal.valueOf(Double.MAX_VALUE);
     }
 
     public BigDecimal getMinPrice() {
@@ -124,7 +121,22 @@ public class SearchDto {
     }
 
     public void setMinPrice(BigDecimal minPrice) {
-        if(minPrice!=null)this.minPrice = minPrice;
-        else this.minPrice=BigDecimal.valueOf(Double.MIN_VALUE);
+        if (minPrice.doubleValue()!=0.0) this.minPrice = minPrice;
+        else this.minPrice = BigDecimal.valueOf(Double.MIN_VALUE);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchDto{" +
+                "brandName='" + brandName + '\'' +
+                ", modelName='" + modelName + '\'' +
+                ", cityName='" + cityName + '\'' +
+                ", creditStatus=" + creditStatus +
+                ", barterStatus=" + barterStatus +
+                ", maxReleaseDate=" + maxReleaseDate +
+                ", minReleaseDate=" + minReleaseDate +
+                ", maxPrice=" + maxPrice +
+                ", minPrice=" + minPrice +
+                '}';
     }
 }

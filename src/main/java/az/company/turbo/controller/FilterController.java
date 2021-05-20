@@ -1,5 +1,6 @@
 package az.company.turbo.controller;
 
+import az.company.turbo.dto.SearchDto;
 import az.company.turbo.service.FilterService;
 
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,10 @@ public class FilterController {
         return filterService.getProduct(brandName,modelName,minPrice,maxPrice,minDate,maxDate,cityName);
     }
 
-
-
+     @PostMapping("/filtir")
+    public ResponseEntity<?> search(@RequestBody SearchDto dto){
+        return filterService.search(dto);
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package az.company.turbo.service;
 
 
+import az.company.turbo.dto.SearchDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public interface FilterService {
                                  Short minDate,
                                  Short maxDate,
                                  String cityName );
+
+    ResponseEntity<?>search(SearchDto dto);
 
 
 }

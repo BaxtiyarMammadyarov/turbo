@@ -36,6 +36,24 @@ public class FilterServiceImpl implements FilterService {
         return ResponseEntity.ok(list);
     }
 
+    @Override
+    public ResponseEntity<?> search(SearchDto dto) {
+        List<ProductDto>dtoList=productRepository
+                .getProduct(
+                        dto.getBrandName()
+                        ,dto.getModelName()
+                        ,dto.getCityName()
+                        ,dto.getMinPrice()
+                        ,dto.getMaxPrice()
+                        ,dto.getMinReleaseDate()
+                        ,dto.getMaxReleaseDate())
+                .stream()
+                .map(this::convertFromEntityToDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(dtoList);
+    }
+
 
     private ProductDto convertFromEntityToDto(ProductEntity entity) {
         log.info(" starter convertFromEntityToDto");
