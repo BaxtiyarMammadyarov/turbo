@@ -5,6 +5,9 @@ import az.company.turbo.dto.ContactInfoDto;
 import az.company.turbo.entity.CityEntity;
 import az.company.turbo.entity.ContactInfoEntity;
 import az.company.turbo.entity.ModelEntity;
+import az.company.turbo.exception.EmailAlreadyExistsException;
+import az.company.turbo.exception.NotFoundException;
+import az.company.turbo.exception.PhoneAlreadyExistsException;
 import az.company.turbo.repository.CityRepository;
 import az.company.turbo.repository.ContactInfoRepository;
 import az.company.turbo.service.ContactInfoService;
@@ -25,6 +28,12 @@ public class ContactInfoServiceImpl implements ContactInfoService {
     }
 
     public ResponseEntity<?> create(ContactInfoDto contact) {
+
+        if (contactRepo.existsByPhone(contact.getPhone())) {
+            throw new PhoneAlreadyExistsException("Phone number already exists");
+        } else if (contactRepo.existsByEmail(contact.getEmail())) {
+            throw new EmailAlreadyExistsException(" email already exists");
+        }
         ContactInfoEntity entity = new ContactInfoEntity();
         entity = copyFromDtoToEntity(contact, entity);
         entity = contactRepo.save(entity);
@@ -71,7 +80,7 @@ public class ContactInfoServiceImpl implements ContactInfoService {
 
     private ContactInfoEntity getbById(Integer id) {
         return contactRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("contact id not founded."));
+                .orElseThrow(() -> new NotFoundException("contact id not founded."));
     }
 
     private CityEntity checkCity(CityDto dto) {

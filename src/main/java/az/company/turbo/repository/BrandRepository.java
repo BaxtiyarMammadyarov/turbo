@@ -17,4 +17,6 @@ public interface BrandRepository extends JpaRepository<BrandEntity, Integer> {
 
  @Query(name = "select * from brand where brand.name=?1",nativeQuery = true)
  Optional<BrandEntity> findByName(String name);
+
+    boolean existsByName(String name);
 }

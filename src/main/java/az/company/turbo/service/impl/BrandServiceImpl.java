@@ -3,6 +3,8 @@ package az.company.turbo.service.impl;
 import az.company.turbo.dto.BrandDto;
 import az.company.turbo.entity.BrandEntity;
 import az.company.turbo.entity.ModelEntity;
+import az.company.turbo.exception.BrandNameAlreadyExistsException;
+import az.company.turbo.exception.NotFoundException;
 import az.company.turbo.repository.BrandRepository;
 import az.company.turbo.service.BrandService;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class BrandServiceImpl implements BrandService {
     @Override
 
     public ResponseEntity<?> create(BrandDto brandDto) {
+        if(brandRepository.existsByName(brandDto.getName())){
+            throw new BrandNameAlreadyExistsException("Brand Name Already Exists");
+        }
         BrandEntity entity = new BrandEntity();
         entity.setName(brandDto.getName());
         entity = brandRepository.save(entity);
@@ -61,6 +66,6 @@ public class BrandServiceImpl implements BrandService {
 
     private BrandEntity getById(Integer id) {
         return brandRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brand id not founded."));
+                .orElseThrow(() -> new NotFoundException("Brand id not founded."));
     }
 }
